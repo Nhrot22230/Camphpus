@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Usuarios\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class UsuariosController extends Controller
 {
@@ -23,19 +24,24 @@ class UsuariosController extends Controller
      */
     public function store(Request $request)
     {
-        // Registrar los datos recibidos en el log
+        // Registrar los datos recibidos en el log (opcional)
         Log::info('Datos recibidos en store:', $request->all());
 
-        // Continuar con la validación y creación
+        // Validar los datos
         $validatedData = $request->validate([
             'dni' => 'required|unique:usuario,dni',
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'correo' => 'required|email|unique:usuario,correo',
+            'password' => 'required|string|min:8',
             'estado' => 'required|boolean',
         ]);
 
+        // Hashear la contraseña
+        //$validatedData['password'] = Hash::make($validatedData['password']);
+        Log::info('Datos validados:', $validatedData);
         $usuario = Usuario::create($validatedData);
+        Log::info('Usuario creado:', $usuario->toArray());
 
         if ($usuario) {
             return response()->json($usuario, 201);
@@ -43,6 +49,7 @@ class UsuariosController extends Controller
 
         return response()->json(['message' => 'Error al crear el usuario'], 500);
     }
+
 
     /**
      * Muestra un usuario específico.

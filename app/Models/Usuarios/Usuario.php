@@ -10,6 +10,7 @@ class Usuario extends Model
     protected $table = 'usuario';
     protected $primaryKey = 'idUsuario';
     public $incrementing = true;
+    public $timestamps = true;
 
     protected $fillable = [
         'dni',
@@ -17,6 +18,7 @@ class Usuario extends Model
         'apellido',
         'correo',
         'estado',
+        'password', // Asegúrate de incluir este campo
     ];
 
     protected $hidden = [

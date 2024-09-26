@@ -69,7 +69,6 @@ const Usuarios: React.FC = () => {
       if (isEditing && currentId !== null) {
         await axios.put(`/api/usuarios/${currentId}`, formData);
       } else {
-        console.log('formData:', formData);
         await axios.post('/api/usuarios', formData);
       }
       setFormData({
