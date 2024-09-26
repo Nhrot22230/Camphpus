@@ -24,10 +24,9 @@ class UsuariosController extends Controller
      */
     public function store(Request $request)
     {
-        // Registrar los datos recibidos en el log (opcional)
-        Log::info('Datos recibidos en store:', $request->all());
+        // Registrar los datos recibidos en el log usando el canal 'usuarios'
+        Log::channel('usuarios')->info('Datos recibidos en store:', $request->all());
 
-        // Validar los datos
         $validatedData = $request->validate([
             'dni' => 'required|unique:usuario,dni',
             'nombre' => 'required|string|max:255',
@@ -37,11 +36,10 @@ class UsuariosController extends Controller
             'estado' => 'required|boolean',
         ]);
 
-        // Hashear la contraseña
-        //$validatedData['password'] = Hash::make($validatedData['password']);
-        Log::info('Datos validados:', $validatedData);
+        // Registrar los datos validados
+        Log::channel('usuarios')->info('Datos validados:', $validatedData);
         $usuario = Usuario::create($validatedData);
-        Log::info('Usuario creado:', $usuario->toArray());
+        Log::channel('usuarios')->info('Usuario creado:', $usuario->toArray());
 
         if ($usuario) {
             return response()->json($usuario, 201);
