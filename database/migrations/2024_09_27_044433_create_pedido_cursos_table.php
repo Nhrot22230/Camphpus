@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('permiso', function (Blueprint $table) {
-            $table->increments('idPermiso')->primary();
-            $table->string('nombre')->unique();
-            $table->string('slug')->unique();
+        Schema::create('pedido_cursos', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
         });
     }
@@ -24,7 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permiso');
+        Schema::dropIfExists('pedido_cursos');
     }
 };
-    

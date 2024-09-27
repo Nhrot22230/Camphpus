@@ -1,23 +1,26 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsuariosController;
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Aquí es donde puedes registrar rutas web para tu aplicación. Estas rutas
+| reciben el middleware "web" que proporciona características como el
+| manejo de sesiones, la protección contra CSRF, etc.
+|
+*/
 
-// Ruta para la página de inicio
 Route::get('/', function () {
     return view('welcome');
 });
 
-// routes/web.php
-Route::get('/prueba', function () {
-    return 'Ruta de prueba funcionando';
+Route::get('/test', function () {
+    return 'Bienvenido a web.php';
 });
 
-// Rutas públicas para Usuarios
-Route::apiResource('api/usuarios', UsuariosController::class);
-
-// O, si necesitas aplicar middleware:
-// Route::middleware('auth:api')->apiResource('usuarios', UsuariosController::class);
-
-
+Route::post('/login', function () {
+    return 'Bienvenido a web.php';
+});
+    
