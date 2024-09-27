@@ -30,7 +30,7 @@ return new class extends Migration
         });
 
         Schema::create('docente_horario', function (Blueprint $table) {
-            $table->integer('cod_docente');
+            $table->string('cod_docente');
             $table->unsignedInteger('fid_horario');
 
             $table->foreign('cod_docente')->references('codDocente')->on('docente')->onDelete('cascade');
@@ -40,7 +40,7 @@ return new class extends Migration
         });
 
         Schema::create('estudiante_horario', function (Blueprint $table) {
-            $table->integer('cod_estudiante');
+            $table->string('cod_estudiante');
             $table->unsignedInteger('fid_horario');
 
             $table->foreign('cod_estudiante')->references('codEstudiante')->on('estudiante')->onDelete('cascade');

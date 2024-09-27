@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -23,7 +24,13 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => [
+            'me',
+            'refresh',
+            'logout',
+            'redirectToGoogle',
+            'handleGoogleCallback',
+        ]]);
     }
 
     /**
@@ -240,4 +247,84 @@ class AuthController extends Controller
         }
     }
 
+
+    /**
+     * Redirigir al usuario a la página de autenticación de Google.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function redirectToGoogle()
+    {
+        Log::channel('authentication')->info('Redirigiendo al usuario a Google para autenticación');
+        return Socialite::driver('google')->redirect();
+    }
+
+    /**
+     * Manejar la respuesta de Google después del inicio de sesión.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function handleGoogleCallback()
+    {
+        try {
+            Log::channel('authentication')->info('Intentando obtener datos de usuario desde Google');
+            $googleUser = Socialite::driver('google')->user();
+            
+            Log::channel('authentication')->info('Datos obtenidos desde Google', [
+                'google_id' => $googleUser->id,
+                'correo' => $googleUser->email,
+            ]);
+
+            $user = Usuario::where('external_id', $googleUser->id)
+                            ->where('external_auth', 'google')
+                            ->first();
+
+            if (!$user) {
+                Log::channel('authentication')->info('Usuario no encontrado, creando nuevo usuario', [
+                    'google_id' => $googleUser->id,
+                    'correo' => $googleUser->email,
+                ]);
+
+                $user = Usuario::create([
+                    'nombre' => $googleUser->user['given_name'],
+                    'apellido' => $googleUser->user['family_name'],
+                    'correo' => $googleUser->email,
+                    'external_id' => $googleUser->id,
+                    'external_auth' => 'google',
+                    'avatar' => $googleUser->avatar,
+                    'estado' => true,
+                ]);
+
+                Log::channel('authentication')->info('Nuevo usuario creado', [
+                    'usuario_id' => $user->idUsuario,
+                    'correo' => $user->correo,
+                ]);
+            } else {
+                Log::channel('authentication')->info('Usuario existente autenticado', [
+                    'usuario_id' => $user->idUsuario,
+                    'correo' => $user->correo,
+                ]);
+            }
+
+            $token = JWTAuth::fromUser($user);
+
+            Log::channel('authentication')->info('Token JWT creado para el usuario', [
+                'usuario_id' => $user->idUsuario,
+                'token' => $token,
+            ]);
+
+            return response()->json([
+                'message' => 'Inicio de sesión exitoso',
+                'user' => $user,
+                'token' => $token,
+            ], 200);
+
+        } catch (\Exception $e) {
+            Log::channel('authentication')->error('Error al autenticar con Google', [
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json(['error' => 'No se pudo autenticar con Google'], 500);
+        }
+    }
 }
