@@ -9,12 +9,28 @@ class PlanEstudios extends Model
     protected $table = 'plan_estudios';
     protected $primaryKey = 'idPlanEstudios';
     public $incrementing = true;
+
     protected $fillable = [
-        'fid_cursosPropuestos',
-        'aprobado',
-        'observaciones',
-        'fid_semestre',
-        'fid_facultad',
-        'fid_especialiad'
+        'fechaCreacion',
+        'numeroNiveles',
+        'fechaModificacion',
+        'fid_especialidad',
+        'fid_curso',
+        'fid_cursoPlanEstudio'
     ];
+
+    public function especialidad()
+    {
+        return $this->belongsTo(Especialidad::class, 'fid_especialiad', 'idEspecialidad');
+    }
+
+    public function cursos()
+    {
+        return $this->hasMany(Curso::class, 'fid_curso', 'idCurso');
+    }
+
+    public function cursoPlanEstudio()
+    {
+        return $this->hasMany(CursoPlanEstudio::class, 'fid_cursoPlanEstudio', 'idCursoPlanEstudio');
+    }
 }

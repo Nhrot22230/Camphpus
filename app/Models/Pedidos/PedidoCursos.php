@@ -3,6 +3,7 @@
 namespace App\Models\Pedidos;
 
 use App\Models\Universidad\Curso;
+use App\Models\Universidad\CursoPlanEstudio;
 use App\Models\Universidad\Especialidad;
 use App\Models\Universidad\Facultad;
 use App\Models\Universidad\Semestre;
@@ -24,7 +25,7 @@ class PedidoCursos extends Model
 
     public function cursos_propuestos()
     {
-        return $this->hasMany(Curso::class, 'fid_cursosPropuestos', 'idCurso');
+        return $this->hasMany(CursoPlanEstudio::class, 'fid_cursosPropuestos', 'idCursoPlanEstudio');
     }
 
     public function especialidad()
