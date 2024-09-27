@@ -14,27 +14,31 @@ class PedidoCursos extends Model
     public $incrementing = true;
 
     protected $fillable = [
+        'fid_cursosPropuestos',
         'aprobado',
         'observaciones',
+        'fid_semestre',
+        'fid_facultad',
+        'fid_especialiad'
     ];
 
     public function cursos_propuestos()
     {
-        return $this->hasMany(Curso::class);
+        return $this->hasMany(Curso::class, 'fid_cursosPropuestos', 'idCurso');
     }
 
     public function especialidad()
     {
-        return $this->belongsTo(Especialidad::class);
+        return $this->belongsTo(Especialidad::class, 'fid_especialiad', 'idEspecialidad');
     }
 
     public function semestre()
     {
-        return $this->belongsTo(Semestre::class);
+        return $this->belongsTo(Semestre::class, 'fid_semestre', 'idSemestre');
     }
 
     public function facultad()
     {
-        return $this->belongsTo(Facultad::class);
+        return $this->belongsTo(Facultad::class, 'fid_facultad', 'idFacultad');
     }
 }
