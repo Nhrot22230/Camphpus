@@ -15,9 +15,9 @@ return new class extends Migration
             $table->increments('idCursoPlanEstudio')->primary(); // ID del pedido
             $table->integer('nivel');
 
-            $table->string('fid_curso');
-            $table->integer('fid_planEstudio');
-            $table->string('fid_pedidoCurso');
+            $table->unsignedInteger('fid_curso');
+            $table->unsignedInteger('fid_planEstudio');
+            //$table->unsignedInteger('fid_pedidoCurso');
 
             // Timestamps
             $table->timestamps();
@@ -25,7 +25,7 @@ return new class extends Migration
             // Definir las llaves foráneas en las migraciones
             $table->foreign('fid_curso')->references('idCurso')->on('curso')->onDelete('cascade');
             $table->foreign('fid_planEstudio')->references('idPlanEstudio')->on('plan_estudio')->onDelete('cascade');
-            $table->foreign('fid_pedidoCurso')->references('idPedidoCurso')->on('pedido_curso')->onDelete('cascade');
+            //$table->foreign('fid_pedidoCurso')->references('idPedidoCurso')->on('pedido_curso')->onDelete('cascade');
         });
     }
 

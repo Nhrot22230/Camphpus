@@ -3,28 +3,35 @@ import AuthAPI, { User } from "./AuthAPI";
 
 interface LoginProps {
     onLoginSuccess: (user: User) => void;
+    api: AuthAPI;
 }
 
-const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
+const Login: React.FC<LoginProps> = ({ onLoginSuccess, api }) => {
     const [correo, setCorreo] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        
         try {
-            const api = new AuthAPI("http://localhost:8000");
-            const response = await api.login(correo, password);
-            if (response.token) {
-                onLoginSuccess(await api.me());
-                window.location.href = "/?token=" + response.token;
-            } else {
+            const { token } = await api.login(correo, password);
+    
+            if (!token) {
                 setError("Credenciales inválidas");
+                return;
             }
+    
+            const user = await api.me() as User;
+            localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("token", token);
+            onLoginSuccess(user);
+            window.location.reload();
         } catch (error) {
-            setError("Credenciales inválidas");
+            setError("Error al iniciar sesión. Por favor, revisa tus credenciales.");
         }
     };
+    
 
     return (
         <div className="flex flex-col items-center justify-center">

@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('matricula_adicional', function (Blueprint $table) {
             $table->increments('idMatriculaAdicional')->primary();
-            $table->integer('fid_estudiante'); // Relación con la tabla estudiantes
-            $table->integer('fid_curso'); // Relación con la tabla cursos
-            $table->integer('fid_director_asociado'); // Relación con la tabla administrativos (director)
-            $table->integer('fid_secretario_academico'); // Relación con la tabla administrativos (secretario)
-            $table->integer('fid_horario'); // Relación con la tabla horarios
+            $table->unsignedInteger('fid_estudiante'); // Relación con la tabla estudiantes
+            $table->unsignedInteger('fid_curso'); // Relación con la tabla cursos
+            $table->unsignedInteger('fid_director_asociado'); // Relación con la tabla administrativos (director)
+            $table->unsignedInteger('fid_secretario_academico'); // Relación con la tabla administrativos (secretario)
+            $table->unsignedInteger('fid_horario'); // Relación con la tabla horarios
             $table->string('motivo'); // Motivo de la solicitud
             $table->string('justificacion'); // Justificación del estudiante
             $table->string('semestre'); // Identificador del semestre
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('activo'); // Estado de la matrícula
             $table->timestamps();
 
-            $table->foreign('fid_estudiante')->references('idEstudiante')->on('estudiantes');
+            $table->foreign('fid_estudiante')->references('idEstudiante')->on('estudiante');
             $table->foreign('fid_curso')->references('idCurso')->on('curso');
             $table->foreign('fid_director_asociado')->references('idAdministrador')->on('administrador');
             $table->foreign('fid_secretario_academico')->references('idAdministrador')->on('administrador');

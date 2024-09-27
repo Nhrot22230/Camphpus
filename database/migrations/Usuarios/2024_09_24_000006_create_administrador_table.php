@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('administrador', function (Blueprint $table) {
-            $table->string('codAdmin')->primary();
+            $table->increments('idAdministrador')->primary();
+            $table->string('codAdmin')->unique();
             $table->unsignedInteger('fid_usuario')->unique();
 
             $table->foreign('fid_usuario')->references('idUsuario')->on('usuario')->onDelete('cascade');

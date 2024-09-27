@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plan_estudios', function (Blueprint $table) {
-            $table->increments('idPlanEstudios')->primary();
+        Schema::create('plan_estudio', function (Blueprint $table) {
+            $table->increments('idPlanEstudio')->primary();
             $table->integer('numeroNiveles');
             $table->date('fechaCreacion');
             $table->date('fechaModificacion');
 
-            $table->integer('fid_especialidad');
+            $table->unsignedInteger('fid_especialidad');
             $table->timestamps();
 
             $table->foreign('fid_especialidad')->references('idEspecialidad')->on('especialidad');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plan_estudios');
+        Schema::dropIfExists('plan_estudio');
     }
 };

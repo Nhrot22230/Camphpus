@@ -10,10 +10,11 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasPermissions;
 
 class Usuario extends Authenticatable implements JWTSubject
 {
-    use Notifiable, HasRoles, HasApiTokens;
+    use Notifiable, HasRoles, HasPermissions, HasApiTokens;
 
     protected $table = 'usuario';
     protected $primaryKey = 'idUsuario';
@@ -27,9 +28,9 @@ class Usuario extends Authenticatable implements JWTSubject
         'correo',
         'estado',
         'password',
-        'external_id',  // Agregado
-        'external_auth',  // Agregado
-        'avatar',  // Agregado
+        'external_id',
+        'external_auth',
+        'avatar',
         'fid_RespuestaEncuesta',
         'fid_Horario',
     ];

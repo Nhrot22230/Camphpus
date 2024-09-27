@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pedido_cursos', function (Blueprint $table) {
-            $table->increments('idPedidoCursos')->primary(); // ID del pedido
+        Schema::create('pedido_curso', function (Blueprint $table) {
+            $table->increments('idPedidoCurso')->primary(); // ID del pedido
             $table->boolean('aprobado')->default(false);
             $table->string('observaciones')->nullable();
 
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pedido_cursos');
+        Schema::dropIfExists('pedido_curso');
     }
 };

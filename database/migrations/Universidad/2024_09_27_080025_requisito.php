@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('tipo_requisito');
             $table->string('codigo_creditos');
 
-            $table->integer('fid_cursoPlanEstudio');
+            $table->unsignedInteger('fid_cursoPlanEstudio');
 
             // Timestamps
             $table->timestamps();

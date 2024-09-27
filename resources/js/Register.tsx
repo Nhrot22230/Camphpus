@@ -3,9 +3,10 @@ import AuthAPI, { User } from "./AuthAPI";
 
 interface RegisterProps {
     onRegisterSuccess: (user: User) => void;
+    api: AuthAPI;
 }
 
-const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
+const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, api }) => {
     const [dni, setDni] = useState("");
     const [nombre, setNombre] = useState("");
     const [apellido, setApellido] = useState("");
@@ -16,8 +17,8 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+    
         try {
-            const api = new AuthAPI("http://localhost:8000");
             await api.register({
                 dni,
                 nombre,
@@ -26,17 +27,23 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
                 password,
                 password_confirmation: passwordConfirmation,
             });
-            const response = await api.login(correo, password);
-            if (response.token) {
-                onRegisterSuccess(await api.me());
-                window.location.href = "/?token=" + response.token;
-            } else {
+    
+            const { token } = await api.login(correo, password);
+            if (!token) {
                 setError("Error en el registro");
+                return;
             }
+
+            const user = await api.me();
+            localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("token", token);
+            onRegisterSuccess(user);
+            window.location.reload();
         } catch (error) {
-            setError("Error en el registro");
+            setError("Error en el registro. Por favor, revisa los datos ingresados.");
         }
     };
+    
 
     return (
         <div className="flex flex-col items-center justify-center">
