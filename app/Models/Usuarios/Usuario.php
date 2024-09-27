@@ -4,6 +4,7 @@ namespace App\Models\Usuarios;
 
 use App\Models\Documentos\Observacion;
 use App\Models\Procesos\RespuestaEncuesta;
+use App\Models\Universidad\Horario;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -30,6 +31,7 @@ class Usuario extends Authenticatable implements JWTSubject
         'external_auth',  // Agregado
         'avatar',  // Agregado
         'fid_RespuestaEncuesta',
+        'fid_Horario',
     ];
 
     protected $hidden = [
@@ -99,5 +101,9 @@ class Usuario extends Authenticatable implements JWTSubject
     public function respuestaEncuesta()
     {
         return $this->belongsTo(RespuestaEncuesta::class, 'fid_RespuestaEncuesta', 'idRespuestaEncuesta');
+    }
+    public function horario()
+    {
+        return $this->belongsTo(Horario::class, 'fid_Horario', 'idHorario');
     }
 }

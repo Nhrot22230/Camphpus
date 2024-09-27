@@ -18,6 +18,7 @@ class Horario extends Model
         'fid_Curso',
         'fid_semestre',
         'fid_RespuestaEncuesta',
+        'fid_MatriculaAdicional',
         'codigo',
         'vacantes',
     ];
@@ -52,5 +53,9 @@ class Horario extends Model
     public function respuestaEncuesta()
     {
         return $this->belongsTo(RespuestaEncuesta::class, 'fid_RespuestaEncuesta', 'idRespuestaEncuesta');
+    }
+    public function matriculaAdicional()
+    {
+        return $this->belongsTo(MatriculaAdicional::class, "fid_MatriculaAdicional", "idMatriculaAdicional");
     }
 }

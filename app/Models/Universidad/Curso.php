@@ -28,4 +28,8 @@ class Curso extends Model
     {
         return $this->belongsTo(RespuestaEncuesta::class,'fid_RespuestaEncuesta','idRespuestaEncuesta');
     }
+    public function horario()
+    {
+        return $this->hasMany(Horario::class,'fid_Curso','idCurso');
+    }
 }

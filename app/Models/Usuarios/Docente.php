@@ -5,6 +5,7 @@ namespace App\Models\Usuarios;
 use App\Models\Documentos\EstudianteTesis;
 use App\Models\Documentos\Tesis;
 use App\Models\Procesos\ComiteEvaluador;
+use App\Models\Universidad\Horario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,10 +13,11 @@ class Docente extends Model
 {
     use HasFactory;
     protected $table = 'docente';
-    protected $primaryKey = 'codDocente';
+    protected $primaryKey = 'idDocente';
 
     protected $fillable = [
-        'fid_usuario'
+        'fid_usuario',
+        'fid_horario',
         // Otros atributos específicos de Docente
     ];
 
@@ -37,5 +39,9 @@ class Docente extends Model
     public function comiteEvaluador()
     {
         return $this->belongsTo(ComiteEvaluador::class, 'fid_comite_evaluador', 'idComiteEvaluador');
+    }
+    public function horario()
+    {
+        return $this->belongsTo(Horario::class, 'fid_horario', 'idHorario');
     }
 }

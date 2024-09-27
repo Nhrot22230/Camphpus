@@ -15,4 +15,9 @@ class Semestre extends Model
         'periodo',
         'estado',
     ];
+
+    public function horario()
+    {
+        return $this->hasMany(Horario::class, 'fid_Semestre', 'idSemestre');
+    }
 }

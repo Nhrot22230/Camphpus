@@ -15,7 +15,6 @@ class MatriculaAdicional extends Model
         'fid_curso',
         'fid_director_asociado',
         'fid_secretario_academico',
-        'fid_horario',
         'motivo',
         'justificacion',
         'semestre',
@@ -26,7 +25,7 @@ class MatriculaAdicional extends Model
     // Definir las relaciones con el estándar fid_
     public function horario()
     {
-        return $this->belongsTo(Horario::class, 'fid_horario', 'idHorario');
+        return $this->HasMany(Horario::class, 'fid_MatriculaAdicional', 'idMatriculaAdicional');
     }
 
     public function estudiante()
