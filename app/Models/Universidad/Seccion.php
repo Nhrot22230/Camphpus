@@ -2,6 +2,7 @@
 
 namespace App\Models\Universidad;
 
+use App\Models\Procesos\ComiteEvaluador;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Usuarios\Docente;
 
@@ -28,5 +29,10 @@ class Seccion extends Model
     public function jefeSeccion()
     {
         return $this->belongsTo(Docente::class, 'cod_jefeSeccion', 'codDocente');
+    }
+
+    public function comites_evaluadores()
+    {
+        return $this->hasMany(ComiteEvaluador::class, 'fid_seccion', 'idSeccion');
     }
 }

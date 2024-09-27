@@ -3,6 +3,7 @@
 namespace App\Models\Universidad;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Documentos\Tesis;
 
 class Especialidad extends Model
 {
@@ -26,5 +27,10 @@ class Especialidad extends Model
     public function areas()
     {
         return $this->hasMany(Area::class, 'fid_especialidad', 'idEspecialidad');
+    }
+
+    public function tesis()
+    {
+        return $this->hasMany(Tesis::class, 'fid_especialidad', 'idEspecialidad');
     }
 }

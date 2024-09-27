@@ -2,6 +2,7 @@
 
 namespace App\Models\Usuarios;
 
+use App\Models\Documentos\Observacion;
 use Illuminate\Database\Eloquent\Model;
 
 class Usuario extends Model
@@ -33,6 +34,11 @@ class Usuario extends Model
     public function roles()
     {
         return $this->belongsToMany(Rol::class, 'rol_usuario', 'usuario_id', 'rol_id');
+    }
+
+    public function observaciones()
+    {
+        return $this->hasMany(Observacion::class, 'fid_usuario', 'idUsuario');
     }
 
     // Relaciones con subclases

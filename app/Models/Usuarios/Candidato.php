@@ -4,6 +4,7 @@ namespace App\Models\Usuarios;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Procesos\CandidatoConvocatoria;
 
 class Candidato extends Model
 {
@@ -19,5 +20,10 @@ class Candidato extends Model
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'fid_usuario', 'idUsuario');
+    }
+
+    public function candidatoConvocatorias()
+    {
+        return $this->hasMany(CandidatoConvocatoria::class, 'fid_candidato', 'idCandidato');
     }
 }
