@@ -11,7 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('curso_plan_estudio', function (Blueprint $table) {
+            $table->increments('idCursoPlanEstudio')->primary(); // ID del pedido
+            $table->integer('nivel');
+
+            $table->string('fid_curso');
+            $table->integer('fid_planEstudio');
+            $table->string('fid_pedidoCurso');
+
+            // Timestamps
+            $table->timestamps();
+
+            // Definir las llaves foráneas en las migraciones
+            $table->foreign('fid_curso')->references('idCurso')->on('curso')->onDelete('cascade');
+            $table->foreign('fid_planEstudio')->references('idPlanEstudio')->on('plan_estudio')->onDelete('cascade');
+            $table->foreign('fid_pedidoCurso')->references('idPedidoCurso')->on('pedido_curso')->onDelete('cascade');
+        });
     }
 
     /**
@@ -19,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('curso_plan_estudio');
     }
 };

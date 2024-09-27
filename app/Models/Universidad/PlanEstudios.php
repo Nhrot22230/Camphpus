@@ -24,7 +24,7 @@ class PlanEstudios extends Model
 
     public function cursos()
     {
-        return $this->hasMany(Curso::class, 'curso');
+        return $this->hasMany(Curso::class, 'fid_planEstudios');
     }
 
     public function cursoPlanEstudio()

@@ -2,6 +2,7 @@
 
 namespace App\Models\Universidad;
 
+use App\Models\Procesos\Encuesta;
 use Illuminate\Database\Eloquent\Model;
 
 class GrupoCursos extends Model
@@ -21,6 +22,6 @@ class GrupoCursos extends Model
 
     public function encuestas()
     {
-        return $this->hasMany(Requisito::class, 'encuesta');
+        return $this->hasMany(Encuesta::class, 'fid_GrupoCursos');
     }
 }

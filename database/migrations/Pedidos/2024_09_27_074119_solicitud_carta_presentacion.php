@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('solicitud_carta_presentacions', function (Blueprint $table) {
-            $table->id();
+        Schema::create('solicitud_carta_presentacion', function (Blueprint $table) {
+            $table->increments('idSolicitudCartaPresentacion');
             $table->integer('fid_estudiante');
             $table->integer('fid_asesor');
             $table->integer('fid_directorCarrera');
@@ -24,11 +24,11 @@ return new class extends Migration
             $table->timestamps();
 
             // Claves foráneas
-            $table->foreign('fid_estudiante')->references('id')->on('estudiantes');
-            $table->foreign('fid_asesor')->references('id')->on('docentes');
-            $table->foreign('fid_directorCarrera')->references('id')->on('administrativos');
-            $table->foreign('fid_secretario')->references('id')->on('administrativos');
-            $table->foreign('fid_curso')->references('id')->on('cursos');
+            $table->foreign('fid_estudiante')->references('idEstudiante')->on('estudiante');
+            $table->foreign('fid_asesor')->references('idDocente')->on('docente');
+            $table->foreign('fid_directorCarrera')->references('idAdministrador')->on('administrador');
+            $table->foreign('fid_secretario')->references('idAdministrador')->on('administrador');
+            $table->foreign('fid_curso')->references('idCurso')->on('curso');
         });
     }
 

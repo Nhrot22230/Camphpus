@@ -11,7 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('requisito', function (Blueprint $table) {
+            $table->increments('idRequisito')->primary(); // ID del pedido
+            $table->string('tipo_requisito');
+            $table->string('codigo_creditos');
+
+            $table->integer('fid_cursoPlanEstudio');
+
+            // Timestamps
+            $table->timestamps();
+
+            // Definir las llaves foráneas en las migraciones
+            $table->foreign('fid_cursoPlanEstudio')->references('idCursoPlanEstudio')->on('curso_plan_estudio')->onDelete('cascade');
+        });
     }
 
     /**
@@ -19,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('requisito');
     }
 };

@@ -11,7 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('pedido_cursos', function (Blueprint $table) {
+            $table->increments('idPedidoCursos')->primary(); // ID del pedido
+            $table->boolean('aprobado')->default(false);
+            $table->string('observaciones')->nullable();
+
+            $table->integer('fid_semestre'); // Semestre al que pertenece el pedido
+            $table->integer('fid_facultad'); // Facultad a la que pertenece el pedido
+            $table->integer('fid_especialidad'); // Especialidad relacionada
+
+            // Timestamps
+            $table->timestamps();
+
+            // Definir las llaves foráneas en las migraciones
+            $table->foreign('fid_semestre')->references('idSemestre')->on('semestre')->onDelete('cascade');
+            $table->foreign('fid_facultad')->references('idFacultad')->on('facultad')->onDelete('cascade');
+            $table->foreign('fid_especialidad')->references('idEspecialidad')->on('especialidad')->onDelete('cascade');
+        });
     }
 
     /**
@@ -19,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('pedido_cursos');
     }
 };

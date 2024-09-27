@@ -25,7 +25,7 @@ class CursoPlanEstudio extends Model
 
     public function requisitos()
     {
-        return $this->hasMany(Requisito::class, 'requisito');
+        return $this->hasMany(Requisito::class, 'fid_cursoPlanEstudio');
     }
 
     public function plan_estudio()

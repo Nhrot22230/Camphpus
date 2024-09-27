@@ -11,7 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('grupo_cursos', function (Blueprint $table) {
+            $table->increments('idGrupoCursos')->primary();
+            $table->string('nombre');
+
+
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('grupo_cursos');
     }
 };
