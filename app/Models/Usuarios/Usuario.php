@@ -3,6 +3,7 @@
 namespace App\Models\Usuarios;
 
 use App\Models\Documentos\Observacion;
+use App\Models\Procesos\RespuestaEncuesta;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -28,6 +29,7 @@ class Usuario extends Authenticatable implements JWTSubject
         'external_id',  // Agregado
         'external_auth',  // Agregado
         'avatar',  // Agregado
+        'fid_RespuestaEncuesta',
     ];
 
     protected $hidden = [
@@ -68,7 +70,7 @@ class Usuario extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Candidato::class, 'fid_usuario', 'idUsuario');
     }
-    
+
     public function getNombreCompletoAttribute()
     {
         return "{$this->nombre} {$this->apellido}";
@@ -92,5 +94,10 @@ class Usuario extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function respuestaEncuesta()
+    {
+        return $this->belongsTo(RespuestaEncuesta::class, 'fid_RespuestaEncuesta', 'idRespuestaEncuesta');
     }
 }
