@@ -15,7 +15,6 @@ class PedidoCursos extends Model
     public $incrementing = true;
 
     protected $fillable = [
-        'fid_cursosPropuestos',
         'aprobado',
         'observaciones',
         'fid_semestre',
@@ -25,7 +24,7 @@ class PedidoCursos extends Model
 
     public function cursos_propuestos()
     {
-        return $this->hasMany(CursoPlanEstudio::class, 'fid_cursosPropuestos', 'idCursoPlanEstudio');
+        return $this->hasMany(CursoPlanEstudio::class, 'pedidoCurso_cursosPlanEstudios');
     }
 
     public function especialidad()

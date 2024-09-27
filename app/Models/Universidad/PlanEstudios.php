@@ -15,8 +15,6 @@ class PlanEstudios extends Model
         'numeroNiveles',
         'fechaModificacion',
         'fid_especialidad',
-        'fid_curso',
-        'fid_cursoPlanEstudio'
     ];
 
     public function especialidad()
@@ -26,11 +24,11 @@ class PlanEstudios extends Model
 
     public function cursos()
     {
-        return $this->hasMany(Curso::class, 'fid_curso', 'idCurso');
+        return $this->hasMany(Curso::class, 'curso');
     }
 
     public function cursoPlanEstudio()
     {
-        return $this->hasMany(CursoPlanEstudio::class, 'fid_cursoPlanEstudio', 'idCursoPlanEstudio');
+        return $this->hasMany(CursoPlanEstudio::class, 'curso_plan_estudio');
     }
 }
