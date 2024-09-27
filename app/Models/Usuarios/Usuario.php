@@ -17,23 +17,23 @@ class Usuario extends Authenticatable implements JWTSubject
     public $incrementing = true;
     public $timestamps = true;
 
-    // Campos que pueden ser asignados masivamente
     protected $fillable = [
         'dni',
         'nombre',
         'apellido',
         'correo',
         'estado',
-        'password', // Asegúrate de cifrar el password en la creación o actualización
+        'password',
+        'external_id',  // Agregado
+        'external_auth',  // Agregado
+        'avatar',  // Agregado
     ];
 
-    // Campos ocultos al serializar
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    // Conversiones de atributos
     protected $casts = [
         'estado' => 'boolean',
     ];
@@ -43,7 +43,6 @@ class Usuario extends Authenticatable implements JWTSubject
         $this->attributes['password'] = bcrypt($password);
     }
 
-    // Relaciones con otras tablas/subclases
     public function estudiante()
     {
         return $this->hasOne(Estudiante::class, 'fid_usuario', 'idUsuario');

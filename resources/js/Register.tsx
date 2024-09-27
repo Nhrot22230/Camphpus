@@ -14,7 +14,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [error, setError] = useState<string | null>(null);
 
-    const api = new AuthAPI('http://localhost:8000/api');
+    const api = new AuthAPI('http://localhost:8000/');
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();

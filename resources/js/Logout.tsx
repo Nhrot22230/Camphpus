@@ -6,7 +6,7 @@ interface LogoutProps {
 }
 
 const Logout: React.FC<LogoutProps> = ({ onLogout }) => {
-    const api = new AuthAPI('http://localhost:8000/api');
+    const api = new AuthAPI('http://localhost:8000/');
 
     const handleLogout = async () => {
         try {

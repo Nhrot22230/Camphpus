@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_OAUTH_ID'),
+        'client_secret' => env('GOOGLE_OAUTH_SECRET'),
+        'redirect' => env('GOOGLE_OAUTH_REDIRECT_URI'),
+    ],
 ];

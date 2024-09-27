@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('seccion', function (Blueprint $table) {
             $table->increments('idSeccion');
             $table->unsignedInteger('fid_departamento');
-            $table->integer('cod_jefeSeccion');
+            $table->string('cod_jefeSeccion');
             $table->timestamps();
 
             $table->foreign('fid_departamento')->references('idDepartamento')->on('departamento')->onDelete('cascade');

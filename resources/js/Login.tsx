@@ -10,7 +10,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
 
-    const api = new AuthAPI('http://localhost:8000/api');
+    const api = new AuthAPI('http://localhost:8000/');
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -18,10 +18,14 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         try {
             await api.login({ correo, password });
             const user = await api.getAuthenticatedUser();
-            onLoginSuccess(user); // Llamar la función de éxito en el login
+            onLoginSuccess(user);
         } catch (error) {
             setError('Credenciales inválidas');
         }
+    };
+
+    const handleGoogleLogin = () => {
+        api.loginWithGoogle();
     };
 
     return (
@@ -56,6 +60,12 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                     Iniciar Sesión
                 </button>
             </form>
+            <button
+                onClick={handleGoogleLogin}
+                className="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 mt-4"
+            >
+                Iniciar Sesión con Google
+            </button>
         </div>
     );
 };

@@ -34,40 +34,50 @@ class AuthAPI {
         this.baseUrl = baseUrl;
     }
 
+    async loginWithGoogle(): Promise<void> {
+        window.location.href = `${this.baseUrl}google-login`;
+    }
+
+    async handleGoogleCallback(): Promise<AuthResponse> {
+        const response = await this.handleRequest<AuthResponse>('get', 'google-callback');
+        this.setToken(response.token);
+        return response;
+    }
+
     private setToken(token: string | null) {
         this.token = token;
         axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : '';
     }
 
     async login(credentials: LoginCredentials): Promise<AuthResponse> {
-        const response = await this.handleRequest<AuthResponse>('post', '/auth/login', credentials);
+        const response = await this.handleRequest<AuthResponse>('post', 'api/auth/login', credentials);
         this.setToken(response.token);
         return response;
     }
 
     async register(data: RegisterData): Promise<AuthResponse> {
-        const response = await this.handleRequest<AuthResponse>('post', '/auth/register', data);
+        const response = await this.handleRequest<AuthResponse>('post', 'api/auth/register', data);
         this.setToken(response.token);
         return response;
     }
 
     async getAuthenticatedUser(): Promise<User> {
-        return await this.handleRequest<User>('get', '/auth/me');
+        return await this.handleRequest<User>('get', 'api/auth/me');
     }
 
     async refreshToken(): Promise<AuthResponse> {
-        const response = await this.handleRequest<AuthResponse>('post', '/auth/refresh');
+        const response = await this.handleRequest<AuthResponse>('post', 'api/auth/refresh');
         this.setToken(response.token);
         return response;
     }
 
     async logout(): Promise<void> {
-        await this.handleRequest<void>('post', '/auth/logout');
+        await this.handleRequest<void>('post', 'api/auth/logout');
         this.setToken(null);
     }
 
     async me(): Promise<User> {
-        return await this.handleRequest<User>('get', '/auth/me');
+        return await this.handleRequest<User>('get', 'api/auth/me');
     }
 
     private async handleRequest<T>(method: 'get' | 'post', endpoint: string, data?: any): Promise<T> {

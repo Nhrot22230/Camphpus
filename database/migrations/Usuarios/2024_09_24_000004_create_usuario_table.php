@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('usuario', function (Blueprint $table) {
             $table->increments('idUsuario')->primary();
-            $table->string('dni')->unique();
-            $table->string('nombre');
-            $table->string('apellido');
-            $table->string('correo')->unique();
-            $table->string('password');
+            $table->string('dni')->unique()->nullable(); // Puede ser null si solo se usa OAuth2
+            $table->string('avatar')->nullable(); // Los datos podrían provenir de OAuth2
+            $table->string('nombre')->nullable(); // Los datos podrían provenir de OAuth2
+            $table->string('apellido')->nullable(); // Los datos podrían provenir de OAuth2
+            $table->string('correo')->unique(); // El correo será único en cualquier caso
+            $table->string('password')->nullable(); // No requerido si se usa OAuth2
+            $table->string('external_id')->nullable(); // ID del usuario en el proveedor OAuth2
+            $table->string('external_auth')->nullable(); // Proveedor OAuth2 (ej: google, facebook)
             $table->boolean('estado')->default(true);
-            $table->rememberToken();
+            $table->rememberToken()->nullable();
             $table->timestamps();
-            // Otros campos necesarios
         });
     }
 
