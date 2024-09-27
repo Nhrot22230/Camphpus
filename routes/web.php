@@ -1,11 +1,10 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OAuthController;
 
-
-Route::get('/google-login', [AuthController::class, 'redirectToGoogle']);
-Route::get('/google-callback', [AuthController::class, 'handleGoogleCallback']);
+Route::get('/auth/redirect/google', [OAuthController::class, 'redirectToProvider']);
+Route::get('/auth/callback/google', [OAuthController::class, 'handleProviderCallback']);
 
 
 /*
@@ -26,8 +25,3 @@ Route::get('/', function () {
 Route::get('/test', function () {
     return 'Bienvenido a web.php';
 });
-
-Route::post('/login', function () {
-    return 'Bienvenido a web.php';
-});
-    

@@ -1,70 +1,84 @@
-import React, { useState } from 'react';
-import Login from './Login';
-import Logout from './Logout';
-import Register from './Register';
-import { User } from './AuthApi';
+import React, { useEffect, useState } from "react";
+import AuthAPI, { User } from "./AuthAPI";
+import Login from "./Login";
+import Register from "./Register";
+import Home from "./Home";
+
+// Inicializamos la instancia de AuthAPI una sola vez
+const api = new AuthAPI("http://localhost:8000");
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [showRegister, setShowRegister] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
-  
-  const handleLoginSuccess = (user: User) => {
-    setUser(user);  
-    setIsAuthenticated(true);
-  };
+    const [user, setUser] = useState<User | null>(null);
+    const [view, setView] = useState<"login" | "register" | "home">("login");
 
-  const handleRegisterSuccess = () => {
-    setIsAuthenticated(true);
-  };
+    useEffect(() => {
+        const token = new URLSearchParams(window.location.search).get("token");
+        if (token) {
+            api.setToken(token);
+            api.me()
+                .then((userData) => {
+                    setUser(userData);
+                    setView("home"); // Cambia a la vista de Home si hay un usuario
+                })
+                .catch((error) => {
+                    console.error("Error fetching user:", error);
+                });
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-  };
+            // Limpia la URL eliminando el token de la query string
+            window.history.replaceState({}, document.title, "/");
+        }
+    }, []);
 
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      {isAuthenticated ? (
-        <div>
-          <h1 className="text-2xl font-bold mb-4">Bienvenido</h1>
-          <p className="mb-4">Hola, {user?.nombre} {user?.apellido}</p>
-          <Logout onLogout={handleLogout} />
+    const handleLogout = () => {
+        api.logout();
+        setUser(null);
+        setView("login");
+    };
+
+    const handleSuccess = (user: User) => {
+        setUser(user);
+        setView("home");
+    };
+
+    return (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-8">
+            <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+                {/* Renderiza los componentes según la vista */}
+                {view === "login" && <Login onLoginSuccess={handleSuccess} />}
+                {view === "register" && (
+                    <Register onRegisterSuccess={handleSuccess} />
+                )}
+                {view === "home" && (
+                    <Home user={user} onLogout={handleLogout} />
+                )}
+
+                <div className="mt-6 text-center">
+                    {view === "login" && (
+                        <p className="text-gray-700">
+                            ¿No tienes una cuenta?
+                            <button
+                                className="text-blue-600 font-semibold hover:underline ml-1"
+                                onClick={() => setView("register")}
+                            >
+                                Regístrate aquí
+                            </button>
+                        </p>
+                    )}
+                    {view === "register" && (
+                        <p className="text-gray-700">
+                            ¿Ya tienes una cuenta?
+                            <button
+                                className="text-blue-600 font-semibold hover:underline ml-1"
+                                onClick={() => setView("login")}
+                            >
+                                Inicia sesión aquí
+                            </button>
+                        </p>
+                    )}
+                </div>
+            </div>
         </div>
-      ) : (
-        <div>
-          {showRegister ? (
-            <>
-              <Register onRegisterSuccess={handleRegisterSuccess} />
-              <p className="mt-4">
-                ¿Ya tienes cuenta?{' '}
-                <button
-                  className="text-blue-500 hover:underline"
-                  onClick={() => setShowRegister(false)}
-                >
-                  Inicia sesión aquí
-                </button>
-              </p>
-            </>
-          ) : (
-            <>
-              <Login onLoginSuccess={handleLoginSuccess} />
-              <p className="mt-4">
-                ¿No tienes cuenta?{' '}
-                <button
-                  className="text-blue-500 hover:underline"
-                  onClick={() => setShowRegister(true)}
-                >
-                  Regístrate aquí
-                </button>
-              </p>
-            </>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-
+    );
+};
 
 export default App;

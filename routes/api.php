@@ -28,13 +28,3 @@ Route::group([
         Route::get('me', [AuthController::class, 'me']);
     });
 });
-
-
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::get('/test', function () {
-    return 'Bienvenido a api.php';
-});
