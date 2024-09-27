@@ -2,40 +2,48 @@
 
 namespace App\Models\Usuarios;
 
-use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Usuario extends Model
+class Usuario extends Authenticatable implements JWTSubject
 {
+    use Notifiable, HasRoles, HasApiTokens;
 
     protected $table = 'usuario';
     protected $primaryKey = 'idUsuario';
     public $incrementing = true;
     public $timestamps = true;
 
+    // Campos que pueden ser asignados masivamente
     protected $fillable = [
         'dni',
         'nombre',
         'apellido',
         'correo',
         'estado',
-        'password', // Asegúrate de incluir este campo
+        'password', // Asegúrate de cifrar el password en la creación o actualización
     ];
 
+    // Campos ocultos al serializar
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    // Conversiones de atributos
     protected $casts = [
         'estado' => 'boolean',
     ];
 
-    public function roles()
+    public function setPasswordAttribute($password)
     {
-        return $this->belongsToMany(Rol::class, 'rol_usuario', 'usuario_id', 'rol_id');
+        $this->attributes['password'] = bcrypt($password);
     }
 
-    // Relaciones con subclases
+    // Relaciones con otras tablas/subclases
     public function estudiante()
     {
         return $this->hasOne(Estudiante::class, 'fid_usuario', 'idUsuario');
@@ -55,33 +63,29 @@ class Usuario extends Model
     {
         return $this->hasOne(Candidato::class, 'fid_usuario', 'idUsuario');
     }
-
-    /**
-     * Verifica si el usuario tiene un rol específico.
-     */
-    public function tieneRol($nombreRol)
-    {
-        return $this->roles->contains('nombre', $nombreRol);
-    }
-
-    /**
-     * Verifica si el usuario tiene un permiso específico.
-     */
-    public function tienePermiso($slugPermiso)
-    {
-        foreach ($this->roles as $rol) {
-            if ($rol->permisosAsignados->contains('slug', $slugPermiso)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Obtiene el nombre completo del usuario.
-     */
+    
     public function getNombreCompletoAttribute()
     {
         return "{$this->nombre} {$this->apellido}";
+    }
+
+    /**
+     * Devuelve el identificador que se almacenará en el subject claim del JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey(); // Esto retornará el id del usuario (idUsuario)
+    }
+
+    /**
+     * Devuelve un array con los claims personalizados del JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

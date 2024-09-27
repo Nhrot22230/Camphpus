@@ -1,15 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Usuarios from './usuarios';
-
-const App: React.FC = () => {
-    return (
-        <div>
-            <h1>¡Hola, React con TypeScript en Laravel!</h1>
-            <Usuarios />
-        </div>
-    );
-}
+import App from './App';
+import '../css/app.css';
 
 const rootElement = document.getElementById('app');
 if (rootElement) {

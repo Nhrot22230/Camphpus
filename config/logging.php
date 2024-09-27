@@ -132,6 +132,12 @@ return [
             'path' => storage_path('logs/usuarios.log'),
             'level' => 'debug',
         ],
+
+        'authentication' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/authentication.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];
