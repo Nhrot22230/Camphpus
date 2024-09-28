@@ -15,8 +15,24 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, api }) => {
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [error, setError] = useState("");
 
+    const handleDniChange = (e: any) => setDni(e.target.value);
+    const handleNombreChange = (e: any) => setNombre(e.target.value);
+    const handleApellidoChange = (e: any) => setApellido(e.target.value);
+    const handleCorreoChange = (e: any) => setCorreo(e.target.value);
+    const handlePasswordChange = (e: any) => setPassword(e.target.value);
+    const handlePasswordConfirmationChange = (e: any) =>
+        setPasswordConfirmation(e.target.value);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (password !== passwordConfirmation) {
+            setError("Las contraseñas no coinciden");
+            setTimeout(() => {
+                setError("");
+            }
+            , 2500);
+            return;
+        }
 
         try {
             await api.register({
@@ -59,7 +75,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, api }) => {
                             label="DNI"
                             type="text"
                             value={dni}
-                            oninput={(e: any) => setDni(e.target.value)}
+                            onInput={handleDniChange}
                             required
                             class="w-full"
                         ></md-outlined-text-field>
@@ -71,7 +87,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, api }) => {
                             label="Nombre"
                             type="text"
                             value={nombre}
-                            oninput={(e: any) => setNombre(e.target.value)}
+                            onInput={handleNombreChange}
                             required
                             class="w-full"
                         ></md-outlined-text-field>
@@ -83,7 +99,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, api }) => {
                             label="Apellido"
                             type="text"
                             value={apellido}
-                            oninput={(e: any) => setApellido(e.target.value)}
+                            onInput={handleApellidoChange}
                             required
                             class="w-full"
                         ></md-outlined-text-field>
@@ -95,7 +111,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, api }) => {
                             label="Correo Electrónico"
                             type="email"
                             value={correo}
-                            oninput={(e: any) => setCorreo(e.target.value)}
+                            onInput={handleCorreoChange}
                             required
                             class="w-full"
                         ></md-outlined-text-field>
@@ -107,7 +123,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, api }) => {
                             label="Contraseña"
                             type="password"
                             value={password}
-                            oninput={(e: any) => setPassword(e.target.value)}
+                            onInput={handlePasswordChange}
                             required
                             class="w-full"
                         ></md-outlined-text-field>
@@ -119,9 +135,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, api }) => {
                             label="Confirmar Contraseña"
                             type="password"
                             value={passwordConfirmation}
-                            oninput={(e: any) =>
-                                setPasswordConfirmation(e.target.value)
-                            }
+                            onInput={handlePasswordConfirmationChange}
                             required
                             class="w-full"
                         ></md-outlined-text-field>

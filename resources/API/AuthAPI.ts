@@ -44,11 +44,23 @@ export default class AuthAPI {
         password: string;
         password_confirmation: string;
     }): Promise<{ message: string; user: User; token: string }> {
-        const response = await this.api.post("/api/auth/register", data);
-        this.token = response.data.token;
-        return response.data;
+        try {
+            const response = await this.api.post("/api/auth/register", {
+                dni: data.dni,
+                nombre: data.nombre,
+                apellido: data.apellido,
+                correo: data.correo,
+                password: data.password,
+                password_confirmation: data.password_confirmation
+            });
+            this.token = response.data.token;
+            return response.data;
+        } catch (error) {
+            console.error("Error al registrar:", error);
+            throw error;
+        }
     }
-
+    
     public async login(
         correo: string,
         password: string
