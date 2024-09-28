@@ -22,6 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function () {
-    return 'Bienvenido a web.php';
+Route::get('/home', function () {
+    return view('home');
 });
+

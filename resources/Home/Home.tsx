@@ -1,5 +1,5 @@
 import React from 'react';
-import { User } from './AuthAPI';
+import { User } from '../API/AuthAPI';
 
 interface HomeProps {
   user: User | null;

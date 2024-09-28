@@ -1,4 +1,3 @@
-// AuthAPI.ts
 import axios, { AxiosInstance } from "axios";
 
 export interface User {
@@ -11,7 +10,6 @@ export interface User {
     avatar?: string;
     external_id?: string;
     external_auth?: string;
-    // otros campos según sea necesario
 }
 
 export default class AuthAPI {
@@ -25,7 +23,6 @@ export default class AuthAPI {
 
         this.token = null;
 
-        // Interceptor para agregar el token en cada solicitud
         this.api.interceptors.request.use(
             (config) => {
                 if (this.token) {
@@ -39,7 +36,6 @@ export default class AuthAPI {
         );
     }
 
-    // Método para registrar un nuevo usuario
     public async register(data: {
         dni: string;
         nombre: string;
@@ -53,7 +49,6 @@ export default class AuthAPI {
         return response.data;
     }
 
-    // Método para iniciar sesión
     public async login(
         correo: string,
         password: string
@@ -66,33 +61,77 @@ export default class AuthAPI {
         return response.data;
     }
 
-    // Método para cerrar sesión
     public async logout(): Promise<{ message: string }> {
         const response = await this.api.post("/api/auth/logout");
         this.token = null;
         return response.data;
     }
 
-    // Método para obtener los datos del usuario autenticado
     public async me(): Promise<User> {
         const response = await this.api.get("/api/auth/me");
         return response.data;
     }
 
-    // Método para actualizar el token JWT
     public async refresh(): Promise<{ message: string; token: string }> {
         const response = await this.api.post("/api/auth/refresh");
         this.token = response.data.token;
         return response.data;
     }
 
-    // Obtener el token actual
     public getToken(): string | null {
         return this.token;
     }
 
-    // Establecer el token manualmente
     public setToken(token: string): void {
         this.token = token;
     }
+
+    public removeToken(): void {
+        this.token = null;
+    }
+
+    public isLoggedIn(): boolean {
+        return this.token !== null;
+    }
+
+    public async listUsers(): Promise<User[]> {
+        const response = await this.api.get("/api/usuarios");
+        return response.data;
+    }
+
+    public async getUser(id: number): Promise<User> {
+        const response = await this.api.get(`/api/usuarios/${id}`);
+        return response.data;
+    }
+
+    public async createUser(data: {
+        dni: string;
+        nombre: string;
+        apellido: string;
+        correo: string;
+        password: string;
+        estado: boolean;
+    }): Promise<User> {
+        const response = await this.api.post("/api/usuarios", data);
+        return response.data;
+    }
+
+    public async updateUser(id: number, data: {
+        dni: string;
+        nombre: string;
+        apellido: string;
+        correo: string;
+        password?: string;
+        estado: boolean;
+    }): Promise<User> {
+        const response = await this.api.put(`/api/usuarios/${id}`, data);
+        return response.data;
+    }
+
+    public async deleteUser(id: number): Promise<{ message: string }> {
+        const response = await this.api.delete(`/api/usuarios/${id}`);
+        return response.data;
+    }
+
+    
 }
