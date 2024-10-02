@@ -1,0 +1,106 @@
+#--------------------------------------------------------------------------
+# Image Setup
+#--------------------------------------------------------------------------
+#
+
+FROM php:8.3-apache
+
+# Set Environment Variables
+ENV DEBIAN_FRONTEND=noninteractive
+
+#
+#--------------------------------------------------------------------------
+# Software's Installation
+#--------------------------------------------------------------------------
+#
+# Installing required packages: tools, PHP extensions, Node.js, npm, Composer
+#
+
+# Install system dependencies, Node.js, npm, and PHP extensions
+RUN set -eux; \
+    apt-get update; \
+    apt-get upgrade -y; \
+    apt-get install -y --no-install-recommends \
+        curl \
+        git \
+        unzip \
+        libpng-dev \
+        libjpeg-dev \
+        libfreetype6-dev \
+        libonig-dev \
+        libpq-dev \
+        libzip-dev \
+        zip \
+        libwebp-dev \
+        libxpm-dev \
+        nodejs \
+        npm; \
+    docker-php-ext-configure gd \
+        --with-freetype --with-jpeg --with-webp --with-xpm; \
+    docker-php-ext-install pdo pdo_mysql pdo_pgsql gd zip opcache; \
+    rm -rf /var/lib/apt/lists/*
+
+# Enable Apache mods
+RUN a2enmod rewrite headers
+
+#
+#--------------------------------------------------------------------------
+# Composer Installation
+#--------------------------------------------------------------------------
+#
+
+# Install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Verify Composer installation
+RUN composer --version
+
+#
+#--------------------------------------------------------------------------
+# Node.js and NPM Installation
+#--------------------------------------------------------------------------
+#
+
+# Install the latest version of npm
+RUN npm install -g npm@latest
+
+# Verify Node.js and npm installation
+RUN node -v
+RUN npm -v
+
+#
+#--------------------------------------------------------------------------
+# Setup Laravel and React Project
+#--------------------------------------------------------------------------
+#
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy project files (Assumes Dockerfile is in the root of the project)
+COPY . /var/www/html
+
+# Install PHP dependencies with Composer
+RUN composer install --no-dev --optimize-autoloader
+
+# Install JS dependencies with npm (e.g., for React/TypeScript)
+RUN npm install
+
+# Build React/TypeScript frontend (Optional: adjust based on your build scripts)
+RUN npm run build
+
+#
+#--------------------------------------------------------------------------
+# Final Apache Setup
+#--------------------------------------------------------------------------
+#
+
+# Set appropriate permissions
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 755 /var/www/html
+
+# Expose port 80 for Apache
+EXPOSE 80
+
+# Start Apache in the foreground
+CMD ["apache2-foreground"]

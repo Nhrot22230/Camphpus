@@ -26,7 +26,8 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         Log::channel('authentication')->info('Intentando registrar nuevo usuario', [
-            $request,
+            'dni' => $request->dni,
+            'correo' => $request->correo,
         ]);
 
         $validatedData = $request->validate([

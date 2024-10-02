@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/img/icon.png">
-    <title>CAMPHPUS</title>
+    <title>EduConnect</title>
 
     @viteReactRefresh
     @vite('resources/Login/main.tsx')

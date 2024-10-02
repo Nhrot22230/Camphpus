@@ -40,10 +40,10 @@ class OAuthController extends Controller
             Log::channel('authentication')->info('Usuario creado o encontrado en la base de datos.', ['usuario' => $usuario]);
             $token = JWTAuth::fromUser($usuario);
             Log::channel('authentication')->info('Token JWT generado.', ['token' => $token]);
-            return redirect("/?token=$token");
+            return redirect(env('FRONTEND_URL') . '/?token=' . $token);
         } catch (\Exception $e) {
             Log::channel('authentication')->error('Error durante el proceso de autenticación.', ['error' => $e->getMessage()]);
-            return redirect('/')->withErrors(['auth' => 'Falló la autenticación.']);
+            return redirect(env('FRONTEND_URL') . '/?error=authentication_error');
         }
     }
 }

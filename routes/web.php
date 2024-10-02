@@ -1,11 +1,22 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OAuthController;
 
 Route::get('/auth/redirect/google', [OAuthController::class, 'redirectToProvider']);
 Route::get('/auth/callback/google', [OAuthController::class, 'handleProviderCallback']);
 
+Route::group([
+    'prefix' => 'auth',
+], function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::get('me', [AuthController::class, 'me']);
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +29,8 @@ Route::get('/auth/callback/google', [OAuthController::class, 'handleProviderCall
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/hola', function () {
+    return response()->json([
+        'message' => 'Hola mundo'
+    ]);
 });
-
-Route::get('/home', function () {
-    return view('home');
-});
-

@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('solicitud_carta_presentacion', function (Blueprint $table) {
             $table->increments('idSolicitudCartaPresentacion');
-            $table->integer('fid_estudiante');
-            $table->integer('fid_asesor');
-            $table->integer('fid_directorCarrera');
-            $table->integer('fid_secretario');
+            $table->unsignedInteger('fid_estudiante');
+            $table->unsignedInteger('fid_asesor');
+            $table->unsignedInteger('fid_directorCarrera');
+            $table->unsignedInteger('fid_secretario');
+            $table->unsignedInteger('fid_curso');
             $table->binary('carta_presentacion');
             $table->json('actividades');
             $table->string('estado');
-            $table->integer('fid_curso');
             $table->timestamps();
 
             // Claves foráneas

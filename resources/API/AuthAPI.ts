@@ -143,7 +143,5 @@ export default class AuthAPI {
     public async deleteUser(id: number): Promise<{ message: string }> {
         const response = await this.api.delete(`/api/usuarios/${id}`);
         return response.data;
-    }
-
-    
+    }    
 }

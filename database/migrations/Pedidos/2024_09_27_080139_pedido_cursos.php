@@ -16,9 +16,9 @@ return new class extends Migration
             $table->boolean('aprobado')->default(false);
             $table->string('observaciones')->nullable();
 
-            $table->integer('fid_semestre'); // Semestre al que pertenece el pedido
-            $table->integer('fid_facultad'); // Facultad a la que pertenece el pedido
-            $table->integer('fid_especialidad'); // Especialidad relacionada
+            $table->unsignedInteger('fid_semestre'); // Semestre al que pertenece el pedido
+            $table->unsignedInteger('fid_facultad'); // Facultad a la que pertenece el pedido
+            $table->unsignedInteger('fid_especialidad'); // Especialidad relacionada
 
             // Timestamps
             $table->timestamps();

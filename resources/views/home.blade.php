@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Laravel + React</title>
+    <link rel="icon" href="/img/icon.png">
+    <title>EduConnect: Inicio</title>
 
     @viteReactRefresh
     @vite('resources/Home/main.tsx')
