@@ -32,13 +32,11 @@ class Estudiante extends Controller
         $request->validate([
             'fid_usuario' => 'required|exists:usuario,idUsuario',
             'fid_Horario' => 'nullable|exists:horario,idHorario',
-            // Aquí puedes agregar más reglas de validación según los atributos de Estudiante
         ]);
 
         $estudiante = Estudiante::create([
             'fid_usuario' => $request->fid_usuario,
             'fid_Horario' => $request->fid_Horario,
-            // Otros atributos específicos de Estudiante
         ]);
 
         return response()->json(['message' => 'Estudiante creado exitosamente', 'estudiante' => $estudiante], 201);
@@ -77,13 +75,11 @@ class Estudiante extends Controller
         $request->validate([
             'fid_usuario' => 'required|exists:usuario,idUsuario',
             'fid_Horario' => 'nullable|exists:horario,idHorario',
-            // Aquí puedes agregar más reglas de validación según los atributos de Estudiante
         ]);
 
         $estudiante->update([
             'fid_usuario' => $request->fid_usuario,
             'fid_Horario' => $request->fid_Horario,
-            // Otros atributos específicos de Estudiante
         ]);
 
         return response()->json(['message' => 'Estudiante actualizado exitosamente', 'estudiante' => $estudiante], 200);
