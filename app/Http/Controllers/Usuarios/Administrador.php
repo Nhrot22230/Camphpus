@@ -12,7 +12,8 @@ class Administrador extends Controller
      */
     public function index()
     {
-        //
+        $administradores = Administrador::with('usuario')->get();
+        return response()->json($administradores);
     }
 
     /**
@@ -28,7 +29,15 @@ class Administrador extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'fid_usuario' => 'required|exists:usuario,idUsuario',
+            // Validar otros atributos específicos de Administrador según sea necesario
+        ]);
+
+        // Crear el nuevo administrador con los datos validados
+        $administrador = Administrador::create($validatedData);
+
+        return response()->json(['message' => 'Administrador creado exitosamente', 'administrador' => $administrador], 201);
     }
 
     /**
@@ -36,7 +45,13 @@ class Administrador extends Controller
      */
     public function show(string $id)
     {
-        //
+        $administrador = Administrador::with('usuario')->find($id);
+
+        if (!$administrador) {
+            return response()->json(['message' => 'Administrador no encontrado'], 404);
+        }
+
+        return response()->json($administrador);
     }
 
     /**
@@ -52,7 +67,21 @@ class Administrador extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'fid_usuario' => 'required|exists:usuario,idUsuario',
+            // Validar otros atributos específicos de Administrador según sea necesario
+        ]);
+
+        // Buscar el administrador y verificar si existe
+        $administrador = Administrador::find($id);
+        if (!$administrador) {
+            return response()->json(['message' => 'Administrador no encontrado'], 404);
+        }
+
+        // Actualizar con los datos validados
+        $administrador->update($validatedData);
+
+        return response()->json(['message' => 'Administrador actualizado exitosamente', 'administrador' => $administrador]);
     }
 
     /**
@@ -60,6 +89,14 @@ class Administrador extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $administrador = Administrador::find($id);
+        if (!$administrador) {
+            return response()->json(['message' => 'Administrador no encontrado'], 404);
+        }
+
+        // Eliminar el administrador
+        $administrador->delete();
+
+        return response()->json(['message' => 'Administrador eliminado exitosamente']);
     }
 }
