@@ -21,7 +21,7 @@ class Estudiante extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
