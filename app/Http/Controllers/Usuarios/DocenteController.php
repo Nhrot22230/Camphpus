@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Usuarios;
 
+use App\Models\Usuarios\Docente;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class Docente extends Controller
+class DocenteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +22,7 @@ class Docente extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**

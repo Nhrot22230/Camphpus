@@ -10,14 +10,14 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
-class UsuarioController extends Controller
+class UsuariosController extends Controller
 {
 
     public function index()
     {
         $this->authorize('ver usuarios');
         $usuarios = Usuario::all();
-        Log::channel('usuarios')->info('Listando usuarios', ['user_id' => Auth::id()]);    
+        Log::channel('usuarios')->info('Listando usuarios', ['user_id' => Auth::id()]);
         return response()->json($usuarios);
     }
 

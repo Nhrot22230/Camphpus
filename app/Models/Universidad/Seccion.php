@@ -3,6 +3,7 @@
 namespace App\Models\Universidad;
 
 use App\Models\Procesos\ComiteEvaluador;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Usuarios\Docente;
 

@@ -4,11 +4,11 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use \App\Http\Controllers\Usuarios\Docente;
-use \App\Http\Controllers\Usuarios\Administrador;
-use \App\Http\Controllers\Usuarios\Estudiante;
+use \App\Http\Controllers\Usuarios\DocenteController;
+use \App\Http\Controllers\Usuarios\AdministradorController;
+use \App\Http\Controllers\Usuarios\EstudianteController;
 
-use \App\Http\Controllers\Universidad\Seccion;
+use \App\Http\Controllers\Universidad\SeccionController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,8 +20,8 @@ use \App\Http\Controllers\Universidad\Seccion;
 |
 */
 
-Route::apiResource('docentes', Docente::class);
-Route::apiResource('estudiantes', Estudiante::class);
-Route::apiResource('administrador', Administrador::class);
-Route::apiResource('seccion', Seccion::class);
+Route::apiResource('docentes', DocenteController::class);
+Route::apiResource('estudiantes', EstudianteController::class);
+Route::apiResource('administrador', AdministradorController::class);
+Route::apiResource('seccion', SeccionController::class);
 
