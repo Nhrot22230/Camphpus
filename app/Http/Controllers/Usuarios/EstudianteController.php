@@ -48,7 +48,7 @@ class EstudianteController extends Controller
 
         Log::channel('estudiante')->info('Guardando Estudiante', ['user_id' => Auth::id(), 'created_estudiante' => $estudiante->codEstudiante]);
 
-        return response()->json(['message' => 'Estudiante creado exitosamente', 'estudiante' => $estudiante], 201);
+        return response()->json($estudiante, 201);
     }
 
     /**

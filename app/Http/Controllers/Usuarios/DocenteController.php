@@ -3,17 +3,23 @@
 namespace App\Http\Controllers\Usuarios;
 
 use App\Models\Usuarios\Docente;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class DocenteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $docentes = Docente::with(['usuario', 'horario', 'tesis', 'estudianteTesis', 'comiteEvaluador'])->get();
+
+        Log::channel('docente')->info('Listando Docentes', ['user_id' => Auth::id()]);
+
         return response()->json($docentes);
     }
 
@@ -44,19 +50,20 @@ class DocenteController extends Controller
             // Otros atributos específicos de Docente
         ]);
 
-        return response()->json(['message' => 'Docente creado exitosamente', 'docente' => $docente], 201);
+        Log::channel('docente')->info('Guardando Docente', ['user_id' => Auth::id(), 'created_docente' => $docente->idDocente]);
+
+        return response()->json($docente, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
         $docente = Docente::with(['usuario', 'horario', 'tesis', 'estudianteTesis', 'comiteEvaluador'])->find($id);
 
-        if (!$docente) {
-            return response()->json(['message' => 'Docente no encontrado'], 404);
-        }
+        if (!$docente) Log::channel('docente')->info('Estudiante no encontrado', ['user_id' => Auth::id()]);
+        Log::channel('docente')->info('Mostrando Docente', ['user_id' => Auth::id(), 'showed_docente' => $docente->idDocente]);
 
         return response()->json($docente);
     }
@@ -76,9 +83,7 @@ class DocenteController extends Controller
     {
         $docente = Docente::find($id);
 
-        if (!$docente) {
-            return response()->json(['message' => 'Docente no encontrado'], 404);
-        }
+        if (!$docente) Log::channel('docente')->info('Docente no encontrado', ['user_id' => Auth::id()]);
 
         $request->validate([
             'fid_usuario' => 'required|exists:usuario,idUsuario',
@@ -94,21 +99,22 @@ class DocenteController extends Controller
             // Otros atributos específicos de Docente
         ]);
 
-        return response()->json(['message' => 'Docente actualizado exitosamente', 'docente' => $docente], 200);
+        Log::channel('docente')->info('Actualizando Docente', ['user_id' => Auth::id(), 'updated_docente' => $docente->idDocente]);
+
+        return response()->json($docente);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): void
     {
          $docente = Docente::find($id);
 
-        if (!$docente) {
-            return response()->json(['message' => 'Docente no encontrado'], 404);
-        }
+        if (!$docente) Log::channel('docente')->info('Docente no encontrado', ['user_id' => Auth::id()]);
 
         $docente->delete();
-        return response()->json(['message' => 'Docente eliminado exitosamente'], 200);
+
+        Log::channel('docente')->info('Eliminando Docente', ['user_id' => Auth::id(), 'deleted_docente' => $docente->idDocente]);
     }
 }
