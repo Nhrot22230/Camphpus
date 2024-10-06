@@ -34,7 +34,7 @@ class DocenteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'fid_usuario' => 'required|exists:usuario,idUsuario',
@@ -79,7 +79,7 @@ class DocenteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): JsonResponse
     {
         $docente = Docente::find($id);
 
