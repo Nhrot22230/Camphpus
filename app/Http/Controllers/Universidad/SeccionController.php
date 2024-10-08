@@ -50,7 +50,7 @@ class SeccionController extends Controller
         ]);
 
         $seccion = Seccion::create($validatedData);
-        //Log::channel('seccion')->info('Guardando Seccion', ['user_id' => Auth::id(), 'created_seccion' => $seccion->idSeccion]);
+        Log::channel('seccion')->info('Guardando Seccion', ['user_id' => Auth::id(), 'created_seccion' => $seccion->idSeccion]);
         return response()->json($seccion, 201);
     }
 
