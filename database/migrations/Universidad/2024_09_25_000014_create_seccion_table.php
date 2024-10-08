@@ -12,13 +12,24 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('seccion', function (Blueprint $table) {
-            $table->increments('idSeccion');
-            $table->unsignedInteger('fid_departamento');
-            $table->string('cod_jefeSeccion');
-            $table->timestamps();
+            $table->increments('idSeccion')->primary(); // Llave primaria con auto-incremento
+            $table->integer('fid_departamento'); // Llave foránea hacia `departamento`
+            $table->string('cod_jefeSeccion'); // Llave foránea hacia `docente`, puede ser null
+            $table->string('nombre'); // Nombre de la sección
+            $table->text('descripcion')->nullable(); // Descripción de la sección (opcional)
+            $table->boolean('estado')->default(true); // Estado de la sección
+            $table->timestamps(); // Timestamps para `created_at` y `updated_at`
 
-            $table->foreign('fid_departamento')->references('idDepartamento')->on('departamento')->onDelete('cascade');
-            $table->foreign('cod_jefeSeccion')->references('codDocente')->on('docente')->onDelete('cascade');
+            // Definición de llaves foráneas
+            $table->foreign('fid_departamento')
+                ->references('idDepartamento')
+                ->on('departamento')
+                ->onDelete('cascade');
+
+            $table->foreign('cod_jefeSeccion')
+                ->references('codDocente')
+                ->on('docente')
+                ->onDelete('cascade');
         });
     }
 

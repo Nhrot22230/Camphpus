@@ -36,6 +36,24 @@ class SeccionController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        echo "Holaaa";
+        //dd($request->toArray()); // Esto imprimirá los datos que se están recibiendo.
+        //echo $request->all();
+        try {
+            $validatedData = $request->validate([
+                'fid_departamento' => 'required|exists:departamento,idDepartamento',
+                'cod_jefeSeccion' => 'required|exists:docente,codDocente',
+                'nombre' => 'required|string|max:255',
+                'descripcion' => 'nullable|string',
+                'estado' => 'required|boolean',
+            ]);
+
+            $seccion = Seccion::create($validatedData);
+            return response()->json($seccion, 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            echo "assafd";
+            return response()->json($e->errors(), 422);
+        }
         $validatedData = $request->validate([
             'fid_departamento' => 'required|exists:departamento,idDepartamento',
             'cod_jefeSeccion' => 'required|exists:docente,codDocente',
@@ -45,7 +63,7 @@ class SeccionController extends Controller
         ]);
 
         $seccion = Seccion::create($validatedData);
-        Log::channel('seccion')->info('Guardando Seccion', ['user_id' => Auth::id(), 'created_seccion' => $seccion->idSeccion]);
+        //Log::channel('seccion')->info('Guardando Seccion', ['user_id' => Auth::id(), 'created_seccion' => $seccion->idSeccion]);
         return response()->json($seccion, 201);
     }
 

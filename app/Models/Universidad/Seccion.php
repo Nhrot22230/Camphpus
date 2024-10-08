@@ -32,8 +32,8 @@ class Seccion extends Model
         return $this->belongsTo(Docente::class, 'cod_jefeSeccion', 'codDocente');
     }
 
-    public function comites_evaluadores()
+    /*public function comites_evaluadores()
     {
         return $this->hasMany(ComiteEvaluador::class, 'fid_seccion', 'idSeccion');
-    }
+    }*/
 }

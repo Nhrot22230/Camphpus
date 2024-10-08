@@ -18,7 +18,7 @@ class AdministradorController extends Controller
     {
         $administradores = Administrador::with('usuario')->get();
 
-        //Log::channel('administrador')->info('Listando Administradores', ['user_id' => Auth::id()]);
+        Log::channel('administrador')->info('Listando Administradores', ['user_id' => Auth::id()]);
 
         return response()->json($administradores);
     }
