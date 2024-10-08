@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Usuarios\DocenteController;
 use \App\Http\Controllers\Usuarios\AdministradorController;
 use \App\Http\Controllers\Usuarios\EstudianteController;
+use \App\Http\Controllers\UsuariosController;
 
 use \App\Http\Controllers\Universidad\SeccionController;
 /*
@@ -24,4 +25,5 @@ Route::apiResource('docentes', DocenteController::class);
 Route::apiResource('estudiantes', EstudianteController::class);
 Route::apiResource('administrador', AdministradorController::class);
 Route::apiResource('seccion', SeccionController::class);
-
+Route::apiResource('usuarios', UsuariosController::class);
+Route::apiResource('departamentos', \App\Http\Controllers\Universidad\DepartamentoController::class);

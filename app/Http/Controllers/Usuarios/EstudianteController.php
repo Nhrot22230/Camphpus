@@ -36,15 +36,12 @@ class EstudianteController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $request->validate([
-            'fid_usuario' => 'required|exists:usuario,idUsuario',
-            'fid_Horario' => 'nullable|exists:horario,idHorario',
+        $data = $request->validate([
+            'codEstudiante' => 'required|string|unique:estudiante,codEstudiante|max:255',
+            'fid_usuario' => 'required|exists:usuario,idUsuario|unique:estudiante,fid_usuario',
         ]);
 
-        $estudiante = Estudiante::create([
-            'fid_usuario' => $request->fid_usuario,
-            'fid_Horario' => $request->fid_Horario,
-        ]);
+        $estudiante = Estudiante::create($data);
 
         Log::channel('estudiante')->info('Guardando Estudiante', ['user_id' => Auth::id(), 'created_estudiante' => $estudiante->codEstudiante]);
 
@@ -81,15 +78,12 @@ class EstudianteController extends Controller
 
         if (!$estudiante) Log::channel('estudiante')->info('Estudiante no encontrado', ['user_id' => Auth::id()]);
 
-        $request->validate([
-            'fid_usuario' => 'required|exists:usuario,idUsuario',
-            'fid_Horario' => 'nullable|exists:horario,idHorario',
+        $data = $request->validate([
+            'codEstudiante' => 'required|string|unique:estudiante,codEstudiante|max:255',
+            'fid_usuario' => 'required|exists:usuario,idUsuario|unique:estudiante,fid_usuario',
         ]);
 
-        $estudiante->update([
-            'fid_usuario' => $request->fid_usuario,
-            'fid_Horario' => $request->fid_Horario,
-        ]);
+        $estudiante->update($data);
 
         Log::channel('estudiante')->info('Actualizando Estudiante', ['user_id' => Auth::id(), 'updated_estudiante' => $estudiante->codEstudiante]);
 

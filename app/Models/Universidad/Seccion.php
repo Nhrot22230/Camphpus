@@ -9,7 +9,7 @@ use App\Models\Usuarios\Docente;
 
 class Seccion extends Model
 {
-    protected $table = 'secciones';
+    protected $table = 'seccion';
     protected $primaryKey = 'idSeccion';
     public $timestamps = false;
 

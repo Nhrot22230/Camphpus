@@ -39,7 +39,8 @@ class DocenteController extends Controller
         $request->validate([
             'fid_usuario' => 'required|exists:usuario,idUsuario',
             'fid_horario' => 'nullable|exists:horario,idHorario',
-            'fid_comite_evaluador' => 'nullable|exists:comite_evaluador,idComiteEvaluador',
+            'codEstudiante' => 'required|string|unique:estudiante,codEstudiante|max:255',
+            //'fid_comite_evaluador' => 'nullable|exists:comite_evaluador,idComiteEvaluador',
             // Agregar otras validaciones específicas para atributos adicionales
         ]);
 

@@ -11,11 +11,11 @@ class Estudiante extends Model
 {
     use HasFactory;
     protected $table = 'estudiante';
-    protected $primaryKey = 'codEstudiante';
+    protected $primaryKey = 'idEstudiante';
 
     protected $fillable = [
         'fid_usuario',
-        'fid_Horario',
+        'codEstudiante',
         // Otros atributos específicos de Estudiante
     ];
 

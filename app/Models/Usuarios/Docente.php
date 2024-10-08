@@ -16,6 +16,7 @@ class Docente extends Model
     protected $primaryKey = 'idDocente';
 
     protected $fillable = [
+        'codDocente',
         'fid_usuario',
         'fid_horario',
         // Otros atributos específicos de Docente
