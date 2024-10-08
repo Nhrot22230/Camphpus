@@ -18,7 +18,7 @@ class AdministradorController extends Controller
     {
         $administradores = Administrador::with('usuario')->get();
 
-        Log::channel('administrador')->info('Listando Administradores', ['user_id' => Auth::id()]);
+        //Log::channel('administrador')->info('Listando Administradores', ['user_id' => Auth::id()]);
 
         return response()->json($administradores);
     }
@@ -37,8 +37,8 @@ class AdministradorController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validatedData = $request->validate([
-            'fid_usuario' => 'required|exists:usuario,idUsuario',
-            // Validar otros atributos específicos de Administrador según sea necesario
+            'codAdmin' => 'required|string|unique:administrador,codAdmin|max:255',
+            'fid_usuario' => 'required|exists:usuario,idUsuario|unique:administrador,fid_usuario',
         ]);
 
         // Crear el nuevo administrador con los datos validados
@@ -74,8 +74,8 @@ class AdministradorController extends Controller
     public function update(Request $request, string $id): JsonResponse
     {
         $validatedData = $request->validate([
-            'fid_usuario' => 'required|exists:usuario,idUsuario',
-            // Validar otros atributos específicos de Administrador según sea necesario
+            'codAdmin' => 'required|string|unique:administrador,codAdmin|max:255',
+            'fid_usuario' => 'required|exists:usuario,idUsuario|unique:administrador,fid_usuario',
         ]);
 
         // Buscar el administrador y verificar si existe
