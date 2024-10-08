@@ -9,10 +9,11 @@ class Administrador extends Model
 {
     use HasFactory;
     protected $table = 'administrador';
-    protected $primaryKey = 'codAdmin';
-    
+    protected $primaryKey = 'idAdministrador';
+
     protected $fillable = [
         'fid_usuario',
+        'codAdmin'
         // Otros atributos específicos de Administrador
     ];
 
