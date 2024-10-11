@@ -12,7 +12,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('usuario', function (Blueprint $table) {
-            $table->increments('idUsuario')->primary();
+            $table->increments('idUsuario');
             $table->string('dni')->unique()->nullable(); // Puede ser null si solo se usa OAuth2
             $table->string('avatar')->nullable(); // Los datos podrían provenir de OAuth2
             $table->string('nombre')->nullable(); // Los datos podrían provenir de OAuth2

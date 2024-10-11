@@ -128,6 +128,14 @@ return [
     'migrations' => [
         'table' => 'migrations',
         'update_date_on_publish' => true,
+        'paths' => [
+            database_path('migrations'),
+            database_path('migrations/Universidad'),
+            database_path('migrations/Usuarios'),
+            database_path('migrations/Procesos'),
+            database_path('migrations/Documentos'),
+            database_path('migrations/Pedidos'),
+        ],
     ],
 
     /*

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('seccion', function (Blueprint $table) {
-            $table->increments('idSeccion')->primary(); // Llave primaria con auto-incremento
+            $table->increments('idSeccion'); // Llave primaria con auto-incremento
             $table->integer('fid_departamento'); // Llave foránea hacia `departamento`
             $table->string('cod_jefeSeccion'); // Llave foránea hacia `docente`, puede ser null
             $table->string('nombre'); // Nombre de la sección

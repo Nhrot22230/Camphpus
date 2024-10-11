@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('informe_riesgo', function (Blueprint $table) {
-            $table->increments('idInformeRiesgo')->primary();
+            $table->increments('idInformeRiesgo');
             $table->integer('semana');
             $table->date('fechainicio');
             $table->enum('estado', ['pendiente', 'aprobado', 'rechazado']);

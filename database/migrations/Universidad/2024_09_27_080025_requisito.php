@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('requisito', function (Blueprint $table) {
-            $table->increments('idRequisito')->primary(); // ID del pedido
+            $table->increments('idRequisito'); // ID del pedido
             $table->string('tipo_requisito');
             $table->string('codigo_creditos');
 

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('estudiante', function (Blueprint $table) {
-            $table->increments('idEstudiante')->primary();
+            $table->increments('idEstudiante');
             $table->string('codEstudiante')->unique();
             $table->unsignedInteger('fid_usuario')->unique();
 

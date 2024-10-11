@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Universidad\AreaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,9 @@ use \App\Http\Controllers\UsuariosController;
 
 use \App\Http\Controllers\Universidad\SeccionController;
 use \App\Http\Controllers\Universidad\DepartamentoController;
+use App\Http\Controllers\Universidad\EspecialidadController;
+use App\Http\Controllers\Universidad\FacultadController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,3 +32,6 @@ Route::apiResource('administrador', AdministradorController::class);
 Route::apiResource('seccion', SeccionController::class);
 Route::apiResource('usuarios', UsuariosController::class);
 Route::apiResource('departamentos', DepartamentoController::class);
+Route::apiResource('facultades', FacultadController::class);
+Route::apiResource('especialidades', EspecialidadController::class);
+Route::apiResource('areas', AreaController::class);
